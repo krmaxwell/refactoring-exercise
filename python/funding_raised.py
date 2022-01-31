@@ -5,13 +5,7 @@ from re import M
 class FundingRaised:
     @staticmethod
     def where(options={}):
-        with open("../startup_funding.csv", "rt") as csvfile:
-            data = csv.reader(csvfile, delimiter=",", quotechar='"')
-            # skip header
-            next(data)
-            csv_data = []
-            for row in data:
-                csv_data.append(row)
+        csv_data = read_csv_file("../startup_funding.csv")
 
         funding = []
         if "company_name" in options:
@@ -51,13 +45,7 @@ class FundingRaised:
 
     @staticmethod
     def find_by(options):
-        with open("../startup_funding.csv", "rt") as csvfile:
-            data = csv.reader(csvfile, delimiter=",", quotechar='"')
-            # skip header
-            next(data)
-            csv_data = []
-            for row in data:
-                csv_data.append(row)
+        csv_data = read_csv_file("../startup_funding.csv")
 
         for option in options:
             valid_options = {"company_name": 1, "city": 4, "state": 5, "round": 9}
@@ -67,6 +55,17 @@ class FundingRaised:
                         return create_mapping(row)
 
         raise RecordNotFound
+
+
+def read_csv_file(filename):
+    with open(filename, "rt") as csvfile:
+        data = csv.reader(csvfile, delimiter=",", quotechar='"')
+        # skip header
+        next(data)
+        csv_data = []
+        for row in data:
+            csv_data.append(row)
+        return csv_data
 
 
 def create_mapping(row):
