@@ -59,26 +59,12 @@ class FundingRaised:
             for row in data:
                 csv_data.append(row)
 
-        if "company_name" in options:
-            for row in csv_data:
-                if row[1] == options["company_name"]:
-                    return create_mapping(row)
-
-        if "city" in options:
-            for row in csv_data:
-                if row[4] == options["city"]:
-                    return create_mapping(row)
-
-        if "state" in options:
-            for row in csv_data:
-                if row[5] == options["state"]:
-                    mapped = {}
-                    return create_mapping(row)
-
-        if "round" in options:
-            for row in csv_data:
-                if row[9] == options["round"]:
-                    return create_mapping(row)
+        for option in options:
+            valid_options = {"company_name": 1, "city": 4, "state": 5, "round": 9}
+            if option in valid_options:
+                for row in csv_data:
+                    if row[valid_options[option]] == options[option]:
+                        return create_mapping(row)
 
         raise RecordNotFound
 
