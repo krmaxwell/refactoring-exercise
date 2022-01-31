@@ -7,34 +7,14 @@ class FundingRaised:
     def where(options={}):
         csv_data = read_csv_file("../startup_funding.csv")
 
-        funding = []
-        if "company_name" in options:
-            result = []
-            for row in csv_data:
-                if row[1] == options["company_name"]:
-                    result.append(row)
-            csv_data = result
-
-        if "city" in options:
-            result = []
-            for row in csv_data:
-                if row[4] == options["city"]:
-                    result.append(row)
-            csv_data = result
-
-        if "state" in options:
-            result = []
-            for row in csv_data:
-                if row[5] == options["state"]:
-                    result.append(row)
-            csv_data = result
-
-        if "round" in options:
-            result = []
-            for row in csv_data:
-                if row[9] == options["round"]:
-                    result.append(row)
-            csv_data = result
+        for option in options:
+            valid_options = {"company_name": 1, "city": 4, "state": 5, "round": 9}
+            if option in valid_options:
+                result = []
+                for row in csv_data:
+                    if row[valid_options[option]] == options[option]:
+                        result.append(row)
+                csv_data = result
 
         output = []
         for row in csv_data:
